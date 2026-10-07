@@ -635,32 +635,22 @@ function finish(){
     <div class="row n"><span>${lN.charAt(0).toUpperCase()+lN.slice(1)}</span><b>${stats.no}</b></div>
     <div class="row"><span>Всего пройдено</span><b>${stats.seen}</b></div>`;
   const ans = $("answers");
-  if (t.verdict){
-    ans.style.display = "block";
-    const ordered = deck.map((cardIdx,i)=>({ n:i+1, term: t.cards[cardIdx].term, ok: !!t.cards[cardIdx].answer }));
-    const wrongIdxs = new Set(stats.noIdxs);
-    ans.innerHTML = `<div class="ans-title">Правильные ответы</div>` + ordered.map(a=>{
-      const isWrong = wrongIdxs.has(deck[a.n-1]);
-      return `<div class="ans-row ${a.ok?"ok":"wrong"}">${a.n}. ${esc(a.term)} → <b>${a.ok?"верно":"неверно"}</b>${isWrong?" <span class='mistake'>· ошибка</span>":""}</div>`;
-    }).join("");
+  ans.style.display = "block";
+  if (stats.noIdxs.length > 0){
+    // единый формат во всех темах: ошибочные вопросы с раскрытием ответа по клику
+    ans.innerHTML = `<div class="ans-title">Вопросы, где была ошибка (${stats.noIdxs.length}) — нажми, чтобы увидеть ответ</div>` +
+      stats.noIdxs.map((cardIdx,i)=>{
+        const cc = t.cards[cardIdx];
+        const answerHtml = t.verdict
+          ? `<div class="ans-body"><b>Правильный ответ:</b> ${cc.answer ? "верно" : "неверно"}</div>`
+          : `<div class="ans-body">${Array.isArray(cc.back) ? cc.back.map(b=>`<p>${b}</p>`).join("") : esc(cc.back)}</div>`;
+        return `<div class="ans-row wrong ans-item" data-i="${i}">
+          <div class="ans-q">${i+1}. ${esc(cc.term)} <span class="chevron">▸</span></div>
+          <div class="ans-body-wrap" style="display:none">${answerHtml}</div>
+        </div>`;
+      }).join("");
   } else {
-    // always show mistakes block (even if empty) — коллапс с ответом по клику
-    ans.style.display = "block";
-    if (stats.noIdxs.length > 0){
-      ans.innerHTML = `<div class="ans-title">Вопросы, где была ошибка (${stats.noIdxs.length}) — нажми, чтобы увидеть ответ</div>` +
-        stats.noIdxs.map((cardIdx,i)=>{
-          const cc = t.cards[cardIdx];
-          const answerHtml = t.verdict
-            ? `<div class="ans-body"><b>Правильный ответ:</b> ${cc.answer ? "верно" : "неверно"}</div>`
-            : `<div class="ans-body">${Array.isArray(cc.back) ? cc.back.map(b=>`<p>${b}</p>`).join("") : esc(cc.back)}</div>`;
-          return `<div class="ans-row wrong ans-item" data-i="${i}">
-            <div class="ans-q">${i+1}. ${esc(cc.term)} <span class="chevron">▸</span></div>
-            <div class="ans-body-wrap" style="display:none">${answerHtml}</div>
-          </div>`;
-        }).join("");
-    } else {
-      ans.innerHTML = `<div class="ans-title">Вопросы, где была ошибка</div><div class="ans-ok">Ошибок нет — всё верно! 🎉</div>`;
-    }
+    ans.innerHTML = `<div class="ans-title">Вопросы, где была ошибка</div><div class="ans-ok">Ошибок нет — всё верно! 🎉</div>`;
   }
   progress[currentTheme] = { seen: stats.seen, yes: stats.yes };
   saveProgress();
