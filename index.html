@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Флеш-карточки · Обществознание · v15</title>
+<title>Флеш-карточки · Обществознание · v16</title>
 <style>
   :root {
     --bg: #0e1622; --bg2: #0b121c;
@@ -78,6 +78,11 @@
           user-select: none; touch-action: none; box-shadow: 0 14px 40px rgba(0,0,0,.4); will-change: transform; }
   .card.flipped .inner { transform: rotateY(180deg); }
   .inner { position: absolute; inset: 0; transition: transform .55s; transform-style: preserve-3d; }
+  .side-tag { position: absolute; top: 50%; transform: translateY(-50%) translateZ(1px); z-index: 6;
+              font-size: .78rem; font-weight: 800; letter-spacing: .6px; text-transform: uppercase;
+              padding: .45rem .6rem; border-radius: 9px; color: var(--green); }
+  .side-tag.left { left: .5rem; color: var(--red); }
+  .side-tag.right { right: .5rem; }
   .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
           display: flex; flex-direction: column; padding: 1.6rem 1.5rem 1.2rem; }
   .face.back { transform: rotateY(180deg); }
@@ -645,7 +650,9 @@ function renderCard(){
         <div class="cat">${tv.verdict ? "Оцени себя" : "Определение"}</div>
         ${backHtml}
       </div>
-    </div>`;
+    </div>
+    <span class="side-tag left">${esc(tv.labelNo||"не знаю")}</span>
+    <span class="side-tag right">${esc(tv.labelYes||"знаю")}</span>`;
   cardEl.style.transition = "transform .6s cubic-bezier(.2,.8,.2,1)";
   cardEl.style.transform = "translateX(0) rotate(0deg)";
   cardEl.style.opacity = "1";
