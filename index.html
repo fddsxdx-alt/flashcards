@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Флеш-карточки · Обществознание · v9</title>
+<title>Флеш-карточки · Обществознание · v10</title>
 <style>
   :root {
     --bg: #171a21; --bg2: #14161c;
@@ -486,11 +486,8 @@ function renderMenu(){
   themeList.innerHTML = names.map((name,i)=>{
     const t = THEMES[name];
     const pct = themePercent(name);
-    const seen = (progress[name] && progress[name].seen) || 0;
     const percHtml = `<div class="t-perc ${pct>=80?"done":""}">${pct}%</div>`;
-    const progLine = seen === 0
-      ? `<span>${t.cards.length} карточек</span>`
-      : `<span class="prog">Усвоено ${pct}% (${seen}/${t.cards.length})</span>`;
+    const progLine = `<span>${t.cards.length} карточек</span>`;
     return `
     <button class="theme" data-name="${esc(name)}">
       <div class="tnum">${i+1}</div>
