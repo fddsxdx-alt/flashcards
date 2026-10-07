@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Флеш-карточки · Обществознание · v13</title>
+<title>Флеш-карточки · Обществознание · v14</title>
 <style>
   :root {
     --bg: #0e1622; --bg2: #0b121c;
@@ -72,10 +72,10 @@
 
   .stage { position: relative; flex: 1; display: flex; flex-direction: column; min-height: 0; }
   .counter { text-align: center; color: var(--muted); font-size: .82rem; letter-spacing: .3px; flex-shrink: 0; padding-bottom: .5rem; }
-  .card-wrap { position: relative; flex: 1; perspective: 1400px; flex-shrink: 0; min-height: 0; }
+  .card-wrap { position: relative; flex: 1 1 0; perspective: 1400px; min-height: 0; }
   .card { position: absolute; inset: 0; background: var(--panel); border: 1px solid var(--line);
           border-radius: 18px; display: flex; flex-direction: column; overflow: hidden;
-          user-select: none; box-shadow: 0 14px 40px rgba(0,0,0,.4); will-change: transform; }
+          user-select: none; touch-action: none; box-shadow: 0 14px 40px rgba(0,0,0,.4); will-change: transform; }
   .card.flipped .inner { transform: rotateY(180deg); }
   .inner { position: absolute; inset: 0; transition: transform .55s; transform-style: preserve-3d; }
   .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
