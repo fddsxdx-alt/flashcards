@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Флеш-карточки · Обществознание · v14</title>
+<title>Флеш-карточки · Обществознание · v15</title>
 <style>
   :root {
     --bg: #0e1622; --bg2: #0b121c;
@@ -97,9 +97,9 @@
   .swipe-hint .no { right: 0; color: var(--red); }
   .swipe-hint .yes { left: 0; color: var(--green); }
 
-  .actions { display: flex; gap: .8rem; justify-content: center; align-items: center; flex-shrink: 0; padding: 1rem 0 .6rem; }
+  .actions { display: flex; gap: .8rem; justify-content: center; align-items: center; flex-shrink: 0; padding: 1.1rem 0 1rem; }
   .btn { cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--ink);
-         border-radius: 12px; padding: .8rem 0; font-size: .95rem; font-weight: 600; transition: background .15s; }
+         border-radius: 12px; padding: .85rem 0; font-size: 1rem; font-weight: 600; transition: background .15s; }
   .btn:active { transform: scale(.96); }
   .btn.no { flex: 1; color: var(--red); max-width: 150px; }
   .btn.flip-c { flex: 0 0 auto; padding: .8rem 1.2rem; }
@@ -145,6 +145,16 @@
   .finish .ans-body b { color: var(--accent); }
 
   @media (min-width: 700px) .card-wrap { max-height: 540px; }
+
+  /* ---- мобильные: крупные кнопки всегда на виду ---- */
+  @media (max-width: 700px) {
+    .actions { padding: .9rem 0 1.1rem; gap: .7rem; }
+    .btn { padding: .95rem 0; font-size: 1.05rem; border-radius: 14px; }
+    .btn.no, .btn.yes { max-width: 170px; }
+    .card-wrap { flex: 1 1 0; min-height: 0; }
+    .card { padding: 0; }
+    .face { padding: 1.2rem 1.1rem 1rem; }
+  }
 </style>
 </head>
 <body>
