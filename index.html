@@ -136,6 +136,14 @@
   .finish .ans-row .mistake { color: var(--red); font-size: .75rem; font-weight: 700; text-transform: uppercase;
                               letter-spacing: .3px; margin-left: .2rem; }
   .finish .ans-ok { padding: .5rem; color: var(--green); font-weight: 600; font-size: .9rem; }
+  .finish .ans-item { cursor: pointer; transition: border-color .15s; }
+  .finish .ans-item:hover { border-color: var(--accent); }
+  .finish .ans-q { display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
+  .finish .ans-q .chevron { color: var(--muted); font-size: .8rem; flex-shrink: 0; }
+  .finish .ans-body-wrap { margin-top: .45rem; padding-top: .45rem; border-top: 1px dashed var(--line); }
+  .finish .ans-body { font-size: .82rem; line-height: 1.5; color: var(--ink); text-align: left; }
+  .finish .ans-body p { margin: 0 0 .4rem; }
+  .finish .ans-body b { color: var(--accent); }
 
   @media (min-width: 700px) .card-wrap { max-height: 540px; }
 </style>
@@ -636,11 +644,20 @@ function finish(){
       return `<div class="ans-row ${a.ok?"ok":"wrong"}">${a.n}. ${esc(a.term)} → <b>${a.ok?"верно":"неверно"}</b>${isWrong?" <span class='mistake'>· ошибка</span>":""}</div>`;
     }).join("");
   } else {
-    // always show mistakes block (even if empty)
+    // always show mistakes block (even if empty) — коллапс с ответом по клику
     ans.style.display = "block";
     if (stats.noIdxs.length > 0){
-      ans.innerHTML = `<div class="ans-title">Вопросы, где была ошибка (${stats.noIdxs.length})</div>` +
-        stats.noIdxs.map((cardIdx,i)=>`<div class="ans-row wrong">${i+1}. ${esc(t.cards[cardIdx].term)}</div>`).join("");
+      ans.innerHTML = `<div class="ans-title">Вопросы, где была ошибка (${stats.noIdxs.length}) — нажми, чтобы увидеть ответ</div>` +
+        stats.noIdxs.map((cardIdx,i)=>{
+          const cc = t.cards[cardIdx];
+          const answerHtml = t.verdict
+            ? `<div class="ans-body"><b>Правильный ответ:</b> ${cc.answer ? "верно" : "неверно"}</div>`
+            : `<div class="ans-body">${Array.isArray(cc.back) ? cc.back.map(b=>`<p>${b}</p>`).join("") : esc(cc.back)}</div>`;
+          return `<div class="ans-row wrong ans-item" data-i="${i}">
+            <div class="ans-q">${i+1}. ${esc(cc.term)} <span class="chevron">▸</span></div>
+            <div class="ans-body-wrap" style="display:none">${answerHtml}</div>
+          </div>`;
+        }).join("");
     } else {
       ans.innerHTML = `<div class="ans-title">Вопросы, где была ошибка</div><div class="ans-ok">Ошибок нет — всё верно! 🎉</div>`;
     }
@@ -662,6 +679,17 @@ document.addEventListener("DOMContentLoaded", ()=>{
   $("restart").addEventListener("click", ()=>loadDeck(THEMES[currentTheme].cards.map((_,i)=>i)));
   $("review").addEventListener("click", ()=>loadDeck(stats.noIdxs));
   $("toMenu").addEventListener("click", toMenu);
+
+  // клик по ошибке — раскрыть правильный ответ
+  document.addEventListener("click", (e)=>{
+    const item = e.target.closest(".ans-item");
+    if(!item) return;
+    const body = item.querySelector(".ans-body-wrap");
+    const ch = item.querySelector(".chevron");
+    const open = body.style.display !== "none";
+    body.style.display = open ? "none" : "block";
+    if(ch) ch.textContent = open ? "▸" : "▾";
+  });
 
   cardEl.addEventListener("pointerdown", onDown);
   cardEl.addEventListener("pointermove", onMove);
