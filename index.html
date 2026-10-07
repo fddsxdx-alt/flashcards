@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Флеш-карточки · Обществознание · v8</title>
+<title>Флеш-карточки · Обществознание · v9</title>
 <style>
   :root {
     --bg: #171a21; --bg2: #14161c;
@@ -534,6 +534,7 @@ function loadDeck(idxs){
   idx = 0;
   $("finish").style.display = "none";
   $("actions").style.display = "flex";
+  wrapEl.style.display = "block";   // вернуть область карточки
   cardEl.style.transition = "none";
   resetProgBar();
   renderCard();
@@ -618,6 +619,7 @@ function finish(){
   $("actions").style.display = "none";
   counterEl.textContent = "";
   cardEl.innerHTML = "";
+  wrapEl.style.display = "none";   // скрыть пустую область карточки
   const f = $("finish");
   const pct = Math.round(stats.seen ? stats.yes/stats.seen*100 : 0);
   const ring = $("ring");
