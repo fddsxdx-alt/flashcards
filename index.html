@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Флеш-карточки · Обществознание · v7</title>
+<title>Флеш-карточки · Обществознание · v8</title>
 <style>
   :root {
     --bg: #171a21; --bg2: #14161c;
@@ -106,9 +106,9 @@
   .btn.yes { flex: 1; color: var(--green); max-width: 150px; }
 
   .finish { display: none; flex-direction: column; align-items: center; flex: 1;
-            min-height: 0; text-align: center; }
-  .finish-main { display: flex; flex-direction: column; align-items: center; justify-content: center;
-                 flex: 1; min-height: 0; width: 100%; padding: .5rem; }
+            min-height: 0; text-align: center; overflow-y: auto; }
+  .finish-main { display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+                 width: 100%; padding: 1rem .5rem; }
   .finish-main>div, .finish-main>h2, .finish-main>p { flex-shrink: 0; }
   .finish-actions { flex-shrink: 0; display: flex; flex-direction: column; align-items: center;
                     width: 100%; padding: .4rem .5rem .8rem; }
@@ -124,8 +124,7 @@
   .finish .rows .row.g b { color: var(--green); }
   .finish .rows .row.n b { color: var(--red); }
   .finish .block { width: 100%; max-width: 260px; margin: .25rem 0; flex-shrink: 0; }
-  .finish .answers { width: 100%; max-width: 320px; text-align: left; margin: .2rem 0 .3rem;
-                     max-height: 30vh; overflow-y: auto; flex-shrink: 1; min-height: 0; }
+  .finish .answers { width: 100%; max-width: 320px; text-align: left; margin: .4rem 0; }
   .finish .ans-title { font-size: .8rem; text-transform: uppercase; letter-spacing: .6px; color: var(--muted);
                        font-weight: 700; margin-bottom: .4rem; }
   .finish .ans-row { font-size: .82rem; padding: .45rem .5rem; border-radius: 8px; margin-bottom: .3rem;
