@@ -105,11 +105,10 @@
   .btn.flip-c { flex: 0 0 auto; padding: .8rem 1.2rem; }
   .btn.yes { flex: 1; color: var(--green); max-width: 150px; }
 
-  .finish { display: none; flex-direction: column; align-items: center; justify-content: center; flex: 1;
+  .finish { display: none; flex-direction: column; align-items: center; flex: 1;
             min-height: 0; text-align: center; }
-  .finish-main { display: flex; flex-direction: column; align-items: center; min-height: 0;
-                 overflow-y: auto; flex: 0 1 auto; width: 100%; max-height: 100%;
-                 padding: .5rem .5rem; justify-content: center; }
+  .finish-main { display: flex; flex-direction: column; align-items: center; justify-content: center;
+                 flex: 1; min-height: 0; overflow-y: auto; width: 100%; padding: .5rem; }
   .finish-main>div, .finish-main>h2, .finish-main>p { flex-shrink: 0; }
   .finish-actions { flex-shrink: 0; display: flex; flex-direction: column; align-items: center;
                     width: 100%; padding: .4rem .5rem .8rem; border-top: 1px solid var(--line); }
@@ -136,6 +135,7 @@
   .finish .ans-row.wrong b { color: var(--red); }
   .finish .ans-row .mistake { color: var(--red); font-size: .75rem; font-weight: 700; text-transform: uppercase;
                               letter-spacing: .3px; margin-left: .2rem; }
+  .finish .ans-ok { padding: .5rem; color: var(--green); font-weight: 600; font-size: .9rem; }
 
   @media (min-width: 700px) .card-wrap { max-height: 540px; }
 </style>
@@ -576,8 +576,10 @@ function showHint(x){ const no=document.querySelector(".swipe-hint .no"), yes=do
   yes.style.opacity = x>20 ? Math.min(1, x/200) : 0; }
 function hideHint(){ document.querySelectorAll(".swipe-hint span").forEach(s=>s.style.opacity=0); }
 
+let busy = false;
 function decide(dir){
-  if (idx >= deck.length) return;
+  if (idx >= deck.length || busy) return;
+  busy = true;
   stats.seen++;
   const ok = dir==="yes";
   if (ok) stats.yes++; else { stats.no++; stats.noIdxs.push(deck[idx]); }
@@ -591,7 +593,7 @@ function decide(dir){
   cardEl.style.transform = `translateX(${fly*1.4}px) rotate(${ok?12:-12}deg)`;
   cardEl.style.opacity = "0";
   updateTop();
-  setTimeout(()=>{ idx++; renderCard(); }, 420);
+  setTimeout(()=>{ idx++; busy=false; renderCard(); }, 420);
 }
 function resetProgBar(){
   progSegs.innerHTML = "";
@@ -633,13 +635,15 @@ function finish(){
       const isWrong = wrongIdxs.has(deck[a.n-1]);
       return `<div class="ans-row ${a.ok?"ok":"wrong"}">${a.n}. ${esc(a.term)} → <b>${a.ok?"верно":"неверно"}</b>${isWrong?" <span class='mistake'>· ошибка</span>":""}</div>`;
     }).join("");
-  } else if (stats.noIdxs.length > 0){
-    // show questions the user got wrong
-    ans.style.display = "block";
-    ans.innerHTML = `<div class="ans-title">Вопросы, где была ошибка (${stats.noIdxs.length})</div>` +
-      stats.noIdxs.map((cardIdx,i)=>`<div class="ans-row wrong">${i+1}. ${esc(t.cards[cardIdx].term)}</div>`).join("");
   } else {
-    ans.style.display = "none"; ans.innerHTML = "";
+    // always show mistakes block (even if empty)
+    ans.style.display = "block";
+    if (stats.noIdxs.length > 0){
+      ans.innerHTML = `<div class="ans-title">Вопросы, где была ошибка (${stats.noIdxs.length})</div>` +
+        stats.noIdxs.map((cardIdx,i)=>`<div class="ans-row wrong">${i+1}. ${esc(t.cards[cardIdx].term)}</div>`).join("");
+    } else {
+      ans.innerHTML = `<div class="ans-title">Вопросы, где была ошибка</div><div class="ans-ok">Ошибок нет — всё верно! 🎉</div>`;
+    }
   }
   progress[currentTheme] = { seen: stats.seen, yes: stats.yes };
   saveProgress();
