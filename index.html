@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Флеш-карточки · Обществознание · v12</title>
+<title>Флеш-карточки · Обществознание · v13</title>
 <style>
   :root {
-    --bg: #171a21; --bg2: #14161c;
-    --panel: #1f2430; --board: #242a38;
-    --ink: #eef1f6; --muted: #8b93a3;
-    --accent: #5b8def; --accent-soft: #22304a;
-    --gold: #e0b45a; --gold-soft: #2a2416; --green: #3ecf8e; --red: #ff6b6b;
-    --line: rgba(255,255,255,.08); --line2: rgba(255,255,255,.14);
+    --bg: #0e1622; --bg2: #0b121c;
+    --panel: #16233a; --board: #1a2a45;
+    --ink: #e9f2fb; --muted: #93a7c0;
+    --accent: #4fb3e8; --accent-soft: #123449;
+    --gold: #62d7de; --gold-soft: #0e3438; --green: #3ecf9e; --red: #ff7b7b;
+    --line: rgba(150,190,225,.12); --line2: rgba(150,190,225,.22);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; }
-  body { margin: 0; background: radial-gradient(1200px 600px at 50% -10%, #1d2330 0%, var(--bg) 55%);
+  body { margin: 0; background: radial-gradient(1200px 600px at 50% -10%, #1a2c46 0%, var(--bg) 55%);
          color: var(--ink); font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
 
   /* ---- shared structure ---- */
@@ -50,11 +50,11 @@
     width: 100%;
   }
   .theme:active { transform: scale(.985); }
-  .theme:hover { border-color: var(--accent); background: #232a39; }
+  .theme:hover { border-color: var(--accent); background: #1a2c46; }
   .theme .tnum { width: 44px; height: 44px; border-radius: 12px; background: var(--accent-soft);
                  color: var(--accent); display: flex; align-items: center; justify-content: center;
                  font-weight: 800; font-size: 1.05rem; flex-shrink: 0; }
-  .theme:nth-child(2n) .tnum { background: #332a15; color: var(--gold); }
+  .theme:nth-child(2n) .tnum { background: #0f3a40; color: var(--gold); }
   .theme .tinfo { flex: 1; min-width: 0; }
   .theme .tinfo b { display: block; font-size: 1rem; }
   .theme .tinfo span { color: var(--muted); font-size: .82rem; display: block; margin-top: .15rem;
